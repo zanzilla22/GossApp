@@ -1,20 +1,20 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View , Image, TouchableOpacity, ScrollView} from 'react-native';
 
-const ProfileCard = ({ name, school, picture}) => {
+const ProfileCard = ({ name, school, year, picture}) => {
   return (
-  <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 10 }}>
+  <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 5 }}>
         <View style={{ borderRadius: 15 }}>
           <View style={{ padding: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
                 source={{ uri: picture }}
-                style={{ width: 180, height: 180, borderRadius: 10 }}
+                style={{ width: 160, height: 160, borderRadius: 10 }}
               />
               <View style={{ marginLeft: 20 }}>
                 <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 5 }}>{name}</Text>
-                <Text style={{ fontSize: 18, color: '#2b2a2a', marginBottom: 5 }}>{school}</Text>
+                <Text style={{ fontSize: 18, color: '#2b2a2a', marginBottom: 5 }}>{school} - {year}</Text>
 
                 <View style={{ flexDirection: 'row', marginTop: 5 , marginBottom:20}}>
                   <TouchableOpacity style={{ flex: 1, marginRight: 10, borderWidth: 1, borderColor: 'blue', borderRadius: 10 }}>
@@ -26,20 +26,15 @@ const ProfileCard = ({ name, school, picture}) => {
                 </View>
 
 
-                <View style={{ flexDirection: 'row', backgroundColor: '#efefef', padding: 10, borderRadius: 10 }}>
+                <TouchableOpacity style={{ flex: 1, marginLeft: 10, backgroundColor: '#fc90c3', borderRadius: 10 }}>
+                    <Text style={{ fontSize: 18, color: '#fff', textAlign: 'center', padding: 10 }}>Chat as Secret Admirer</Text>
+                </TouchableOpacity>
+
+                {/* <View style={{ flexDirection: 'row', backgroundColor: '#efefef', padding: 10, borderRadius: 10 }}>
                   <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, color: '#555', marginBottom: 5 }}>Articles</Text>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>41</Text>
+                  
                   </View>
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, color: '#555', marginBottom: 5 }}>Followers</Text>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>976</Text>
-                  </View>
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, color: '#555', marginBottom: 5 }}>Rating</Text>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>8.5</Text>
-                  </View>
-                </View>
+                </View> */}
                 
               </View>
             </View>
@@ -50,25 +45,33 @@ const ProfileCard = ({ name, school, picture}) => {
 }
 
 export default function App() {
+  const profiles = [
+    { name: "Zane Beeai", school: "St. Thomas Aquinas", year: "07", picture: "https://i.imgur.com/lyuRGpc.jpeg" },
+    { name: "Aditya Raman", school: "University of Toronto Schools", year: "07", picture: "https://i.imgur.com/lyuRGpc.jpeg" },
+    { name: "Alice Smith", school: "Harvard University", year: "04", picture: "https://i.imgur.com/6EybQz9.jpeg" },
+    { name: "John Doe", school: "MIT", year: "03", picture: "https://i.imgur.com/X6IJX5g.jpeg" }
+  ];
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!  What's your opinion on minorities? </Text>
+      <Text>Open up App.js to start working on your app! What's your opinion on minorities?</Text>
       <StatusBar style="auto" />
-      <View style={{ flex: 1, backgroundColor: '#9de2ff', justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ flex: 1 }}>
-          <ProfileCard name="Zane Beeai" school="St. Thomas Aquinas" picture = "https://i.imgur.com/lyuRGpc.jpeg"/>
+      <View style={{ flex: 1, backgroundColor: '#d9c1cc', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, overflow: 'hidden' }}>
+          <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
+            {profiles.map((profile, index) => (
+              <View key={index} style={{ marginBottom: 20 }}>
+                <ProfileCard name={profile.name} school={profile.school} picture={profile.picture} />
+              </View>
+            ))}
+          </ScrollView>
         </View>
-        <View style={{ flex: 1 }}>
-          <ProfileCard name="Zane Beeai" school="St. Thomas Aquinas" picture = "https://i.imgur.com/lyuRGpc.jpeg"/>
-        </View>
-        <View style={{ flex: 1 }}>
-          <ProfileCard name="Zane Beeai" school="St. Thomas Aquinas" picture = "https://i.imgur.com/lyuRGpc.jpeg"/>
-        </View>
-        
       </View>
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
