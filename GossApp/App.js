@@ -120,6 +120,7 @@ if (currentView === 'profiles') {
     </View>
   );
 } else if (currentView === 'chat') {
+  // i swear if ava leaves me on read when i invtented messages i will cry - aditya raman 04/20/2023
   return (
     <View style={styles.container}>
       <Text>Chat with {selectedProfile.name}</Text>
