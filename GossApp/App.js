@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , Image, TouchableOpacity, ScrollView, Vibration} from 'react-native';
-
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Vibration, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 
 const LikeButton = ({ onPress }) => {
   const [liked, setLiked] = useState(false);
@@ -54,16 +53,6 @@ const ProfileCard = ({ name, school, year, picture, onMessagePress}) => {
                   </TouchableOpacity>
                   <LikeButton onPress = {addLike}/>
                 </View>
-
-
-                
-
-                {/* <View style={{ flexDirection: 'row', backgroundColor: '#efefef', padding: 10, borderRadius: 10 }}>
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                  
-                  </View>
-                </View> */}
-                
               </View>
             </View>
             <TouchableOpacity onPress={onMessagePress}
@@ -79,6 +68,7 @@ const ProfileCard = ({ name, school, year, picture, onMessagePress}) => {
 export default function App() {
   const [currentView, setCurrentView] = useState('profiles');
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const profiles = [
     { name: "Zane Beea", school: "St. Thomas Aquinas", year: "07", picture: "https://i.imgur.com/lyuRGpc.jpeg" },
@@ -88,52 +78,76 @@ export default function App() {
   ];
 
   const handleProfileSelection = (profile) => {
-    setSelectedProfile(profile);
-    setCurrentView('chat');
-  };
+  setSelectedProfile(profile);
+  setCurrentView('chat');
+};
 
-  const handleBackToProfiles = () => {
-    setCurrentView('profiles');
-  };
+const [messageInput, setMessageInput] = useState('');
 
-  if (currentView === 'profiles') {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app! What's your opinion on minorities?</Text>
-        <StatusBar style="auto" />
-        <View style={{ flex: 1, backgroundColor: '#d9c1cc', justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ flex: 1, overflow: 'hidden' }}>
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
-              {profiles.map((profile, index) => (
-                <View key={index} style={{ marginBottom: 20 }}>
-                  <ProfileCard
-                    name={profile.name}
-                    school={profile.school}
-                    year={profile.year}
-                    picture={profile.picture}
-                    onMessagePress={() => handleProfileSelection(profile)}
-                  />
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+const handleSendMessage = () => {
+  if (messageInput.trim()) {
+    setMessages([...messages, messageInput]);
+    setMessageInput('');
+  }
+};
+
+const handleBackToProfiles = () => {
+  setCurrentView('profiles');
+};
+
+if (currentView === 'profiles') {
+  return (
+    <View style={styles.container}>
+      <Text>Open up App.js to start working on your app! What's your opinion on minorities?</Text>
+      <StatusBar style="auto" />
+      <View style={{ flex: 1, backgroundColor: '#d9c1cc', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, overflow: 'hidden' }}>
+          <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
+            {profiles.map((profile, index) => (
+              <View key={index} style={{ marginBottom: 20 }}>
+                <ProfileCard
+                  name={profile.name}
+                  school={profile.school}
+                  year={profile.year}
+                  picture={profile.picture}
+                  onMessagePress={() => handleProfileSelection(profile)}
+                />
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </View>
-    );
-  } else if (currentView === 'chat') {
-    return (
-      <View style={styles.container}>
-        <Text>Chat with {selectedProfile.name}</Text>
-        <TouchableOpacity onPress={handleBackToProfiles} style={{ marginTop: 20 }}>
-          <Text>Back to profiles</Text>
+    </View>
+  );
+} else if (currentView === 'chat') {
+  return (
+    <View style={styles.container}>
+      <Text>Chat with {selectedProfile.name}</Text>
+      <TouchableOpacity onPress={handleBackToProfiles} style={{ marginTop: 20 }}>
+        <Text>Back to profiles</Text>
+      </TouchableOpacity>
+      <ScrollView style={styles.chatContainer}>
+        {messages.map((message, index) => (
+          <Text key={index}>{message}</Text>
+        ))}
+      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.chatInputContainer}
+      >
+        <TextInput
+          style={styles.chatInput}
+          placeholder="Type your message"
+          value={messageInput}
+          onChangeText={setMessageInput}
+        />
+        <TouchableOpacity onPress={handleSendMessage} style={styles.sendButton}>
+          <Text>Send</Text>
         </TouchableOpacity>
-      </View>
-    );
-  }
+      </KeyboardAvoidingView>
+    </View>
+  );
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -142,10 +156,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  likeButton: {
+  chatContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  
+  chatInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    width: '100%',
+  },
+  chatInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 10,
+  },
+  sendButton: {
+    padding: 10,
+    backgroundColor: '#007AFF',
+    borderRadius: 10,
+  },
 });
