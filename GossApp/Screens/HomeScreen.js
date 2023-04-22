@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Vibration, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 // import firebase from 'firebase/database';
 // import 'firebase/database'; // import the Realtime Database module
-
+import styles from './styles';
 
 
 const LikeButton = ({ onPress }) => {
@@ -154,36 +154,3 @@ if (currentView === 'profiles') {
   );
 }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  chatContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    flex: 1,
-  },
-  chatInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    width: '100%',
-  },
-  chatInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-    padding: 10,
-    marginRight: 10,
-  },
-  sendButton: {
-    padding: 10,
-    backgroundColor: '#007AFF',
-    borderRadius: 10,
-  },
-});

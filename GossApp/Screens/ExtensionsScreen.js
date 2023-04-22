@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Linking } from 'react-native';
+import styles from './styles';
 
 const extensions = [
   {
@@ -9,10 +10,11 @@ const extensions = [
     downloadUrl: 'https://numberonenation.com',
   },
   {
-    id: '2',
+    id: 'rel1.0',
     name: 'Relationship',
     description: 'Are you lonely? Or perhaps you just want to make new friends? Look no further download the Relationship extension and meet new people safely.',
     // the are you lonely felt targetted - aditya raman 04/21/2023
+    // it did indeed - zane beeai 04/22/2023
     downloadUrl: 'https://numberonenation.com',
   },
   // Add more extensions here
@@ -48,44 +50,5 @@ const ExtensionsScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  extensionItem: {
-    marginBottom: 16,
-    padding: 16,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-  },
-  extensionName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  extensionDescription: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  downloadButton: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  downloadButtonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-  },
-});
 
 export default ExtensionsScreen;
