@@ -1,422 +1,69 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import {Dropdown} from 'react-native-element-dropdown';
 import styles from './styles';
 
 
-const RegisterScreen = () => {
-  const [firstName, setFirst] = useState('');
-  const [lastName, setLast] = useState('');
-  const [school, setSchool] = useState(''); //this one might need a dropdown but idrk
 
-  const provinceData = [
-    { name: 'Alberta', cities: ["Airdrie"
-    ,"Grande Prairie"
-    ,"Red Deer"
-    ,"Beaumont"
-    ,"Hanna"
-    ,"St. Albert"
-    ,"Bonnyville"
-    ,"Hinton"
-    ,"Spruce Grove"
-    ,"Brazeau"
-    ,"Irricana"
-    ,"Strathcona County"
-    ,"Breton"
-    ,"Lacombe"
-    ,"Strathmore"
-    ,"Calgary"
-    ,"Leduc"
-    ,"Sylvan Lake"
-    ,"Camrose"
-    ,"Lethbridge"
-    ,"Swan Hills"
-    ,"Canmore"
-    ,"McLennan"
-    ,"Taber"
-    ,"Didzbury"
-    ,"Medicine Hat"
-    ,"Turner Valley"
-    ,"Drayton Valley"
-    ,"Olds"
-    ,"Vermillion"
-    ,"Edmonton"
-    ,"Onoway"
-    ,"Wood Buffalo"
-    ,"Ft. Saskatchewan"
-    ,"Provost"].sort() },
-    { name: 'British Columbia', cities: ["Burnaby"
-    ,"Lumby"
-    ,"City of Port Moody"
-    ,"Cache Creek"
-    ,"Maple Ridge"
-    ,"Prince George"
-    ,"Castlegar"
-    ,"Merritt"
-    ,"Prince Rupert"
-    ,"Chemainus"
-    ,"Mission"
-    ,"Richmond"
-    ,"Chilliwack"
-    ,"Nanaimo"
-    ,"Saanich"
-    ,"Clearwater"
-    ,"Nelson"
-    ,"Sooke"
-    ,"Colwood"
-    ,"New Westminster"
-    ,"Sparwood"
-    ,"Coquitlam"
-    ,"North Cowichan"
-    ,"Surrey"
-    ,"Cranbrook"
-    ,"North Vancouver"
-    ,"Terrace"
-    ,"Dawson Creek"
-    ,"North Vancouver"
-    ,"Tumbler"
-    ,"Delta"
-    ,"Osoyoos"
-    ,"Vancouver"
-    ,"Fernie"
-    ,"Parksville"
-    ,"Vancouver"
-    ,"Invermere"
-    ,"Peace River"
-    ,"Vernon"
-    ,"Kamloops"
-    ,"Penticton"
-    ,"Victoria"
-    ,"Kaslo"
-    ,"Port Alberni"
-    ,"Whistler"
-    ,"Langley"
-    ,"Port Hardy"].sort() },
-    { name: 'Manitoba', cities: ["Birtle"
-    ,"Flin Flon"
-    ,"Swan River"
-    ,"Brandon"
-    ,"Snow Lake"
-    ,"The Pas"
-    ,"Cranberry Portage"
-    ,"Steinbach"
-    ,"Thompson"
-    ,"Dauphin"
-    ,"Stonewall"
-    ,"Winnipeg"].sort() },
-    { name: 'New Brunswick', cities: ["Birtle"
-    ,"Flin Flon"
-    ,"Swan River"
-    ,"Brandon"
-    ,"Snow Lake"
-    ,"The Pas"
-    ,"Cranberry Portage"
-    ,"Steinbach"
-    ,"Thompson"
-    ,"Dauphin"
-    ,"Stonewall"
-    ,"Winnipeg"].sort() },
-    { name: 'Newfoundland and Labrador', cities: ["Argentia"
-    ,"Corner Brook"
-    ,"Paradise"
-    ,"Bishop's Falls"
-    ,"Labrador City"
-    ,"Portaux Basques"
-    ,"Botwood"
-    ,"Mount Pearl"
-    ,"St. John's"
-    ,"Brigus"].sort() },
-    { name: 'Northwest Territories', cities: ["Town of Hay River"
-    ,"Town of Inuvik"
-    ,"Yellowknife"].sort() },
-    { name: 'Nova Scotia', cities: ["Amherst"
-    ,"Hants County"
-    ,"Pictou"
-    ,"Annapolis"
-    ,"Inverness County"
-    ,"Pictou County"
-    ,"Argyle"
-    ,"Kentville"
-    ,"Queens"
-    ,"Baddeck"
-    ,"County of Kings"
-    ,"Richmond"
-    ,"Bridgewater"
-    ,"Lunenburg"
-    ,"Shelburne"
-    ,"Cape Breton"
-    ,"Lunenburg County"
-    ,"Stellarton"
-    ,"Chester"
-    ,"Mahone Bay"
-    ,"Truro"
-    ,"Cumberland County"
-    ,"New Glasgow"
-    ,"Windsor"
-    ,"East Hants"
-    ,"New Minas"
-    ,"Yarmouth"
-    ,"Halifax"
-    ,"Parrsboro"].sort() },
-    { name: 'Nunavut', cities: ['Iqaluit', 'Rankin Inlet', 'Arviat', 'Baker Lake'].sort() },
-    { name: 'Ontario', cities: ["Ajax"
-    ,"Halton"
-    ,"Mississauga"
-    ,"Peterborough"
-    ,"Atikokan"
-    ,"Halton Hills"
-    ,"Pickering"
-    ,"Barrie"
-    ,"Hamilton"
-    ,"Port Bruce"
-    ,"Belleville"
-    ,"Hamilton-Wentworth"
-    ,"Port Burwell"
-    ,"Blandford-Blenheim"
-    ,"Hearst"
-    ,"Port Colborne"
-    ,"Blind River"
-    ,"Huntsville"
-    ,"Port Hope"
-    ,"Brampton"
-    ,"Ingersoll"
-    ,"Prince Edward"
-    ,"Brant"
-    ,"James"
-    ,"Quinte West"
-    ,"Brantford"
-    ,"Kanata"
-    ,"Renfrew"
-    ,"Brock"
-    ,"Kincardine"
-    ,"Richmond Hill"
-    ,"Brockville"
-    ,"King"
-    ,"Sarnia"
-    ,"Burlington"
-    ,"Kingston"
-    ,"Sault Ste. Marie"
-    ,"Caledon"
-    ,"Kirkland Lake"
-    ,"Scarborough"
-    ,"Cambridge"
-    ,"Kitchener"
-    ,"Scugog"
-    ,"Chatham-Kent"
-    ,"Larder Lake"
-    ,"Souix Lookout CoC Sioux Lookout"
-    ,"Chesterville"
-    ,"Leamington"
-    ,"Smiths Falls"
-    ,"Clarington"
-    ,"Lennox-Addington"
-    ,"South-West Oxford"
-    ,"Cobourg"
-    ,"Lincoln"
-    ,"St. Catharines"
-    ,"Cochrane"
-    ,"Lindsay"
-    ,"St. Thomas"
-    ,"Collingwood"
-    ,"London"
-    ,"Stoney Creek"
-    ,"Cornwall"
-    ,"Loyalist Township"
-    ,"Stratford"
-    ,"Cumberland"
-    ,"Markham"
-    ,"Sudbury"
-    ,"Deep River"
-    ,"Metro Toronto"
-    ,"Temagami"
-    ,"Dundas"
-    ,"Merrickville"
-    ,"Thorold"
-    ,"Durham"
-    ,"Milton"
-    ,"Thunder Bay"
-    ,"Dymond"
-    ,"Nepean"
-    ,"Tillsonburg"
-    ,"Ear Falls"
-    ,"Newmarket"
-    ,"Timmins"
-    ,"East Gwillimbury"
-    ,"Niagara"
-    ,"Toronto"
-    ,"East Zorra-Tavistock"
-    ,"Niagara Falls"
-    ,"Uxbridge"
-    ,"Elgin"
-    ,"Niagara-on-the-Lake"
-    ,"Vaughan"
-    ,"Elliot Lake"
-    ,"North Bay"
-    ,"Wainfleet"
-    ,"Flamborough"
-    ,"North Dorchester"
-    ,"Wasaga Beach"
-    ,"Fort Erie"
-    ,"North Dumfries"
-    ,"Waterloo"
-    ,"Fort Frances"
-    ,"North York"
-    ,"Waterloo"
-    ,"Gananoque"
-    ,"Norwich"
-    ,"Welland"
-    ,"Georgina"
-    ,"Oakville"
-    ,"Wellesley"
-    ,"Glanbrook"
-    ,"Orangeville"
-    ,"West Carleton"
-    ,"Gloucester"
-    ,"Orillia"
-    ,"West Lincoln"
-    ,"Goulbourn"
-    ,"Osgoode"
-    ,"Whitby"
-    ,"Gravenhurst"
-    ,"Oshawa"
-    ,"Wilmot"
-    ,"Grimsby"
-    ,"Ottawa"
-    ,"Windsor"
-    ,"Guelph"
-    ,"Ottawa-Carleton"
-    ,"Woolwich"
-    ,"Haldimand-Norfork"
-    ,"Owen Sound"
-    ,"York"].sort() },
-    { name: 'Prince Edward Island', cities: ["Alberton"
-    ,"Montague"
-    ,"Stratford"
-    ,"Charlottetown"
-    ,"Souris"
-    ,"Summerside"
-    ,"Cornwall"].sort() },
-    { name: 'Quebec', cities: ["Alma"
-    ,"Fleurimont"
-    ,"Longueuil"
-    ,"Amos"
-    ,"Gaspe"
-    ,"Marieville"
-    ,"Anjou"
-    ,"Gatineau"
-    ,"Mount Royal"
-    ,"Aylmer"
-    ,"Hull"
-    ,"Montreal"
-    ,"Beauport"
-    ,"Joliette"
-    ,"Montreal Region"
-    ,"Bromptonville"
-    ,"Jonquiere"
-    ,"Montreal-Est"
-    ,"Brosssard"
-    ,"Lachine"
-    ,"Quebec"
-    ,"Chateauguay"
-    ,"Lasalle"
-    ,"Saint-Leonard"
-    ,"Chicoutimi"
-    ,"Laurentides"
-    ,"Sherbrooke"
-    ,"Coaticook"
-    ,"LaSalle"
-    ,"Sorel"
-    ,"Coaticook"
-    ,"Laval"
-    ,"Thetford Mines"
-    ,"Dorval"
-    ,"Lennoxville"
-    ,"Victoriaville"
-    ,"Drummondville"
-    ,"Levis"].sort() },
-    { name: 'Saskatchewan', cities: ["Avonlea"
-    ,"Melfort"
-    ,"Swift Current"
-    ,"Colonsay"
-    ,"Nipawin"
-    ,"Tisdale"
-    ,"Craik"
-    ,"Prince Albert"
-    ,"Unity"
-    ,"Creighton"
-    ,"Regina"
-    ,"Weyburn"
-    ,"Eastend"
-    ,"Saskatoon"
-    ,"Wynyard"
-    ,"Esterhazy"
-    ,"Shell Lake"
-    ,"Yorkton"
-    ,"Gravelbourg"].sort() },
-    { name: 'Yukon', cities: ["Carcross"
-    ,"Whitehorse"].sort() },
-  ];
+
+
+const RegisterScreen = () => {
+    const [firstName, setFirst] = useState('');
+    const [lastName, setLast] = useState('');
+    const [school, setSchool] = useState(''); //this one might need a dropdown but idrk
 
 //   all need dropdowns
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedProvince, setSelectedProvince] = useState('');
+    const [province, setProvince] = useState('');
+    const [city, setCity] = useState('');
   const [sex, setSex] = useState('');
   const [orientation, setOrientation] = useState('');
 
   const navigation = useNavigation();
 
 
+  const data = [
+    { label: 'Item 1', value: '1' },
+    { label: 'Item 2', value: '2' },
+    { label: 'Item 3', value: '3' },
+    { label: 'Item 4', value: '4' },
+    { label: 'Item 5', value: '5' },
+    { label: 'Item 6', value: '6' },
+    { label: 'Item 7', value: '7' },
+    { label: 'Item 8', value: '8' },
+  ];
 
-  const ProvinceDropdown = () => {
-    const handleProvinceChange = (value) => {
-      setSelectedProvince(value);
-    };
-  
-    return (
-      <View style={styles.dropdownContainer}>
-        <Text style={styles.label}>Province:</Text>
-        <Picker
-          selectedValue={selectedProvince}
-          onValueChange={handleProvinceChange}
-          style={styles.picker}
-        >
-          {provinceData.map((province) => (
-            <Picker.Item key={province.name} label={province.name} value={province.name} />
-          ))}
-        </Picker>
-        <Text style={styles.selectedValue}>{selectedProvince}</Text>
-      </View>
-    );
+
+//   const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+//   const renderLabel = () => {
+//     if (value || isFocus) {
+//       return (
+//         <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+//           Dropdown label
+//         </Text>
+//       );
+//     }
+//     return null;
+//   };
+
+
+
+  const handleCountryChange = (countryId) => {
+    setSelectedCountry(countryId);
+    setSelectedState(null);
+    setSelectedCity(null);
   };
   
-  const CityDropdown = () => {
-    const handleCityChange = (value) => {
-      setSelectedCity(value);
-    };
-  
-    const selectedProvinceData = provinceData.find((province) => province.name === selectedProvince);
-  
-    if (!selectedProvinceData) {
-      return null;
-    }
-  
-    return (
-      <View style={styles.dropdownContainer}>
-        <Text style={styles.label}>City:</Text>
-        <Picker
-          selectedValue={selectedCity}
-          onValueChange={handleCityChange}
-          style={styles.picker}
-        >
-          {selectedProvinceData.cities.map((city) => (
-            <Picker.Item key={city} label={city} value={city} />
-          ))}
-        </Picker>
-        <Text style={styles.selectedValue}>{selectedCity}</Text>
-      </View>
-    );
+  const handleStateChange = (stateId) => {
+    setSelectedState(stateId);
+    setSelectedCity(null);
   };
+  
+  const handleCityChange = (cityId) => {
+    setSelectedCity(cityId);
+  };
+  
   
   
   const saveProfile = () => {
@@ -424,9 +71,8 @@ const RegisterScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-
-      <View style={styles.inputContainer}>
+    <KeyboardAvoidingView style={styles.container2} behavior="padding">
+        <View style={styles.container3}>
         <TextInput
           placeholder="First Name"
           value={firstName}
@@ -440,13 +86,63 @@ const RegisterScreen = () => {
           style={styles.input}
           secureTextEntry
         />
-      </View>
-      <ProvinceDropdown/>
-      <CityDropdown/>
+
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Select province' : '...'}
+          searchPlaceholder="Search..."
+          value={province}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setProvince(item.value);
+            setIsFocus(false);
+          }}
+          //could render an icon here ig
+        />
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Select city' : '...'}
+          searchPlaceholder="Search..."
+          value={city}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setCity(item.value);
+            setIsFocus(false);
+          }}
+          //could render an icon here ig
+        />
+        
+
+
+
+
+
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={saveProfile} style={styles.button}>
           <Text style={styles.buttonText}>Save Profile</Text>
         </TouchableOpacity>
+      </View>
       </View>
     </KeyboardAvoidingView>
   );

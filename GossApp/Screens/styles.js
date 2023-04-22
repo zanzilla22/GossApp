@@ -1,34 +1,45 @@
-// i hate styles we should hire a woman to do this
 module.exports = {
   container: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 16,
+    justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  container3: {
+    backgroundColor: '#f0f0f0',
+    padding:20,
+    borderRadius:15,
+    
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#ff69b4', // Pink text color
   },
   extensionItem: {
     marginBottom: 16,
     padding: 16,
-    backgroundColor: '#ffe4e1', // Light pink background
+    backgroundColor: '#f0f0f0',
     borderRadius: 8,
   },
   extensionName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ff69b4', // Pink text color
   },
   extensionDescription: {
     fontSize: 14,
     marginBottom: 8,
-    color: '#ff1493', // Deep pink text color
   },
   downloadButton: {
-    backgroundColor: '#ff69b4', // Pink background color
+    backgroundColor: '#007AFF',
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -39,11 +50,6 @@ module.exports = {
     color: '#fff',
     textAlign: 'center',
   },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   inputContainer: {
     width: '80%'
   },
@@ -53,6 +59,7 @@ module.exports = {
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    marginBottom:10,
   },
   buttonContainer: {
     width: '60%',
@@ -61,7 +68,7 @@ module.exports = {
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#ff69b4', // Pink background color
+    backgroundColor: '#0782F9',
     width: '100%',
     padding: 15,
     borderRadius: 10,
@@ -70,7 +77,7 @@ module.exports = {
   buttonOutline: {
     backgroundColor: 'white',
     marginTop: 5,
-    borderColor: '#ff69b4', // Pink border color
+    borderColor: '#0782F9',
     borderWidth: 2,
   },
   buttonText: {
@@ -79,13 +86,13 @@ module.exports = {
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#ff69b4', // Pink text color
+    color: '#0782F9',
     fontWeight: '700',
     fontSize: 16,
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: '#ff69b4', // Pink border color
+    borderColor: 'gray',
     borderRadius: 5,
     paddingHorizontal: 10,
   },
@@ -96,27 +103,39 @@ module.exports = {
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#ff69b4', // Pink text color
   },
-},
-centeredView: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 22,
-},
-modalView: {
-  margin: 20,
-  backgroundColor: 'white',
-  borderRadius: 20,
-  padding: 35,
-  alignItems: 'center',
-  shadowColor: '#000',
-  shadowOffset: {
-    width: 0,
-    height: 2,
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom:10,
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 4,
-  elevation: 5, // Added value for 'elevation'
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
 };
