@@ -1,3 +1,4 @@
+// i hate styles we should hire a woman to do this
 module.exports = {
   container: {
     flex: 1,
@@ -8,23 +9,26 @@ module.exports = {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#ff69b4', // Pink text color
   },
   extensionItem: {
     marginBottom: 16,
     padding: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffe4e1', // Light pink background
     borderRadius: 8,
   },
   extensionName: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#ff69b4', // Pink text color
   },
   extensionDescription: {
     fontSize: 14,
     marginBottom: 8,
+    color: '#ff1493', // Deep pink text color
   },
   downloadButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#ff69b4', // Pink background color
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -57,7 +61,7 @@ module.exports = {
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: '#ff69b4', // Pink background color
     width: '100%',
     padding: 15,
     borderRadius: 10,
@@ -66,7 +70,7 @@ module.exports = {
   buttonOutline: {
     backgroundColor: 'white',
     marginTop: 5,
-    borderColor: '#0782F9',
+    borderColor: '#ff69b4', // Pink border color
     borderWidth: 2,
   },
   buttonText: {
@@ -75,13 +79,13 @@ module.exports = {
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: '#ff69b4', // Pink text color
     fontWeight: '700',
     fontSize: 16,
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#ff69b4', // Pink border color
     borderRadius: 5,
     paddingHorizontal: 10,
   },
@@ -92,5 +96,27 @@ module.exports = {
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#ff69b4', // Pink text color
   },
+},
+centeredView: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 22,
+},
+modalView: {
+  margin: 20,
+  backgroundColor: 'white',
+  borderRadius: 20,
+  padding: 35,
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5, // Added value for 'elevation'
 };
