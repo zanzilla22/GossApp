@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Vibration, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-// import firebase from 'firebase/database';
-// import 'firebase/database'; // import the Realtime Database module
 import styles from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 
+// const navigation = useNavigation();
 const LikeButton = ({ onPress }) => {
   const [liked, setLiked] = useState(false);
   
@@ -13,7 +13,7 @@ const LikeButton = ({ onPress }) => {
   const handlePress = () => {
     setLiked(!liked);
     onPress();
-    Vibration.vibrate(30); // Vibrate for 100 milliseconds
+    Vibration.vibrate(30); // Vibrate f cor 100 milliseconds
   };
 
   return (
@@ -33,11 +33,14 @@ const LikeButton = ({ onPress }) => {
   );
 };
 
+
+
 const addLike = () => {
   console.log("Like added!")
 }
 
 const ProfileCard = ({ name, school, year, picture, onMessagePress}) => {
+  
   return (
   <View style={{backgroundColor: '#fff', borderRadius: 30, padding: 5 }}>
         <View style={{ borderRadius: 15 }}>
@@ -81,7 +84,7 @@ export default function HomeScreen() {
     { name: "Alice Smith", school: "Harvard University", year: "04", picture: "https://i.imgur.com/6EybQz9.jpeg" },
     { name: "John Doe", school: "MIT", year: "03", picture: "https://i.imgur.com/X6IJX5g.jpeg" }
   ];
-
+  
   const handleProfileSelection = (profile) => {
   setSelectedProfile(profile);
   setCurrentView('chat');
@@ -99,15 +102,24 @@ const handleSendMessage = () => {
 const handleBackToProfiles = () => {
   setCurrentView('profiles');
 };
-
+const navigation = useNavigation();
+const editProfile = () => {
+  navigation.replace('Register');
+}
 if (currentView === 'profiles') {
   return (
-    <View style={styles.container}>
+    <View style={styles.container4}>
       <Text>Open up App.js to start working on your app! What's your opinion on minorities?</Text>
       <StatusBar style="auto" />
+      
+
       <View style={{ flex: 1, backgroundColor: '#d9c1cc', justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
           <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
+          <TouchableOpacity onPress={editProfile}
+            style={{marginTop:10,marginBottom: 10, flex: 1, marginLeft: 10, backgroundColor: '#fc90c3', borderRadius: 10 }}>
+                    <Text style={{ fontSize: 18, color: '#fff', textAlign: 'center', padding: 10 }}>Edit Your Profile</Text>
+                </TouchableOpacity>
             {profiles.map((profile, index) => (
               <View key={index} style={{ marginBottom: 20 }}>
                 <ProfileCard

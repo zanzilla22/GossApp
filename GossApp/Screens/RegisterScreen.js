@@ -1,113 +1,129 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View, Alert} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import styles from './styles';
-
-
-
+// import firebase from '../firebase';
+import { auth } from '../firebase';
+// import {firebase} from 'firebase/app';
+import {firebase} from 'firebase/firestore';
+import {showImagePicker} from 'react-native-image-picker';
 
 
 const RegisterScreen = () => {
-    const [firstName, setFirst] = useState('');
-    const [lastName, setLast] = useState('');
-    const [school, setSchool] = useState(''); //this one might need a dropdown but idrk
-
-//   all need dropdowns
-    const [province, setProvince] = useState('');
-    const [city, setCity] = useState('');
+  const [firstName, setFirst] = useState('');
+  const [lastName, setLast] = useState('');
+  const [description, setDescription] = useState('');
+  const [school, setSchool] = useState('');
   const [sex, setSex] = useState('');
   const [orientation, setOrientation] = useState('');
+  const [image, setImage] = useState(null);
+
+  const sexList = [
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
+    { label: 'Other', value: 'Other' },
+];
+const orientationList = [
+    {label: 'Straight', value: 'Straight'},
+    {label: 'Gay', value: 'Gay'},
+    {label: 'Lesbian', value: 'Lesbian'},
+    {label: 'Other', value: 'Other'},
+]
+
+  const [isFocus, setIsFocus] = useState(false);
 
   const navigation = useNavigation();
 
+  const user = auth.currentUser;
+  console.log(user);
+  console.log(firebase);
 
-  const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
+//   useEffect(() => {
+//     if (user) {
+//       const db = firestore();
 
-
-//   const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-//   const renderLabel = () => {
-//     if (value || isFocus) {
-//       return (
-//         <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-//           Dropdown label
-//         </Text>
-//       );
+//       db.collection('users').doc(user.uid).get()
+//         .then((doc) => {
+//           if (doc.exists) {
+//             const data = doc.data();
+//             setFirst(data.firstName || '');
+//             setLast(data.lastName || '');
+//             setDescription(data.description || '');
+//             setSchool(data.school || '');
+//             setSex(data.sex || '');
+//             setOrientation(data.orientation || '');
+//           }
+//         })
+//         .catch((error) => {
+//           console.error('Error fetching user data: ', error);
+//         });
 //     }
-//     return null;
-//   };
+//   }, [user]);
 
-
-
-  const handleCountryChange = (countryId) => {
-    setSelectedCountry(countryId);
-    setSelectedState(null);
-    setSelectedCity(null);
+  const chooseImage = () => {
+    showImagePicker({}, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        setImage(response.uri);
+      }
+    });
   };
-  
-  const handleStateChange = (stateId) => {
-    setSelectedState(stateId);
-    setSelectedCity(null);
-  };
-  
-  const handleCityChange = (cityId) => {
-    setSelectedCity(cityId);
-  };
-  
-  
-  
   const saveProfile = () => {
-    console.log('saving to profile');
-  };
+    if(firstName && lastName && description && school && sex && orientation) {
+      console.log('saving to profile');
+      const db = firebase.firestore();
 
+      db.collection('users').doc(user.uid).set({
+        firstName,
+        lastName,
+        description,
+        school,
+        sex,
+        orientation,
+      })
+      .then(() => {
+        console.log('Profile saved successfully!');
+        navigation.replace('Home');
+      })
+      .catch((error) => {
+        console.error('Error saving profile: ', error);
+        Alert.alert('Error saving profile: ', error);
+      });
+    } else {
+      Alert.alert('Error', "All fields must be filled in.", [{ text: 'OK' }]);
+    }
+  };
+  
   return (
     <KeyboardAvoidingView style={styles.container2} behavior="padding">
-        <View style={styles.container3}>
+      <View style={styles.container3}>
         <TextInput
           placeholder="First Name"
           value={firstName}
-          onChangeText={text => setFirst(text)}
-          style={styles.input}
+          onChangeText={(text) => setFirst(text)}
+          style={styles.input2}
         />
         <TextInput
           placeholder="Last Name"
           value={lastName}
-          onChangeText={text => setLast(text)}
-          style={styles.input}
-          secureTextEntry
+          onChangeText={(text) => setLast(text)}
+          style={styles.input2}
         />
-
-        <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          data={data}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? 'Select province' : '...'}
-          searchPlaceholder="Search..."
-          value={province}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setProvince(item.value);
-            setIsFocus(false);
-          }}
-          //could render an icon here ig
+        <TextInput
+          placeholder="Description"
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+          style={styles.input2}
+        />
+        <TextInput
+          placeholder="School"
+          value={school}
+          onChangeText={(text) => setSchool(text)}
+          style={styles.input2}
         />
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
@@ -115,37 +131,54 @@ const RegisterScreen = () => {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={data}
+          data={sexList}
           search
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select city' : '...'}
+          placeholder={!isFocus ? 'Select sex' : '...'}
           searchPlaceholder="Search..."
-          value={city}
+          value={sex}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            setCity(item.value);
+            setSex(item.value);
             setIsFocus(false);
           }}
-          //could render an icon here ig
         />
         
-
-
-
-
-
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={saveProfile} style={styles.button}>
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={orientationList}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Select orientation' : '...'}
+          searchPlaceholder="Search..."
+          value={orientation}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setOrientation(item.value);
+            setIsFocus(false);
+          }}
+        />
+  
+        <TouchableOpacity style={styles.button} onPress={saveProfile}>
           <Text style={styles.buttonText}>Save Profile</Text>
         </TouchableOpacity>
       </View>
-      </View>
+      <Text onPress={chooseImage}>Choose Profile Image</Text>
+
+{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
     </KeyboardAvoidingView>
   );
+  
 };
 
 export default RegisterScreen;

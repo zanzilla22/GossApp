@@ -5,6 +5,7 @@ import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import ExtensionsScreen from './Screens/ExtensionsScreen';
 import RegisterScreen from './Screens/RegisterScreen';
+import LaurenAI from './Screens/LaurenTest';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,8 +15,9 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Extensions" component={ExtensionsScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Extensions" component={ExtensionsScreen} />
+        <Stack.Screen name="LaurenAI" component={LaurenAI} />
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -19,6 +19,54 @@ module.exports = {
     borderRadius:15,
     
   },
+  container4: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  messageList: {
+    flex: 1,
+    padding: 16,
+  },
+  userMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#0099FF',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    maxWidth: '70%',
+  },
+  chatGPTMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#E5E5EA',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    maxWidth: '70%',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5EA',
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#E5E5EA',
+    borderRadius: 8,
+    padding: 8,
+    marginRight: 8,
+  },
+  sendButton: {
+    backgroundColor: '#0099FF',
+    borderRadius: 8,
+    padding: 8,
+  },
+  sendButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -50,10 +98,10 @@ module.exports = {
     color: '#fff',
     textAlign: 'center',
   },
-  inputContainer: {
+  inputContainer2: {
     width: '80%'
   },
-  input: {
+  input2: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
