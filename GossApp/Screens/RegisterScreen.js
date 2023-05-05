@@ -5,8 +5,10 @@ import {Dropdown} from 'react-native-element-dropdown';
 import styles from './styles';
 // import firebase from '../firebase';
 import { auth } from '../firebase';
-// import {firebase} from 'firebase/app';
-import {firebase} from 'firebase/firestore';
+import * as allFB from '../firebase';
+import firestore from '@react-native-firebase/firestore'
+import firebase from '@react-native-firebase/app';
+// import '../firebase/firestore';
 import {showImagePicker} from 'react-native-image-picker';
 
 
@@ -35,31 +37,55 @@ const orientationList = [
 
   const navigation = useNavigation();
 
+  docTest =  async () => {
+    return await firestore().collection("users").doc("FjZcjRx44U3aEPcz2cjN").get();
+  }
+  // const userDocument = 
+
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyDHubzwCEOmO7DmkBuvCqF7GTj24sBYvNA",
+  //   authDomain: "goss-ee6e6.firebaseapp.com",
+  //   projectId: "goss-ee6e6",
+  //   storageBucket: "goss-ee6e6.appspot.com",
+  //   messagingSenderId: "1019879370842",
+  //   appId: "1:1019879370842:web:ce18b3a9d012a85ccf2863",
+  //   measurementId: "G-XXW9LV5F59"
+  // };
+  
+  // firebase.initializeApp(firebaseConfig);
+  
+  // const firestore = firebase.firestore();
+
+
+
+
   const user = auth.currentUser;
   console.log(user);
+  console.log(allFB);
+  console.log(docTest());
   console.log(firebase);
 
-//   useEffect(() => {
-//     if (user) {
-//       const db = firestore();
+  // useEffect(() => {
+  //   if (user) {
+  //     const db = firebase.firestore();
 
-//       db.collection('users').doc(user.uid).get()
-//         .then((doc) => {
-//           if (doc.exists) {
-//             const data = doc.data();
-//             setFirst(data.firstName || '');
-//             setLast(data.lastName || '');
-//             setDescription(data.description || '');
-//             setSchool(data.school || '');
-//             setSex(data.sex || '');
-//             setOrientation(data.orientation || '');
-//           }
-//         })
-//         .catch((error) => {
-//           console.error('Error fetching user data: ', error);
-//         });
-//     }
-//   }, [user]);
+  //     db.collection('users').doc(user.uid).get()
+  //       .then((doc) => {
+  //         if (doc.exists) {
+  //           const data = doc.data();
+  //           setFirst(data.firstName || '');
+  //           setLast(data.lastName || '');
+  //           setDescription(data.description || '');
+  //           setSchool(data.school || '');
+  //           setSex(data.sex || '');
+  //           setOrientation(data.orientation || '');
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching user data: ', error);
+  //       });
+  //   }
+  // }, [user]);
 
   const chooseImage = () => {
     showImagePicker({}, response => {
