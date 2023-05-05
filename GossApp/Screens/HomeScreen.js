@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Vibration, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import styles from './styles';
 import LaurenAI from './LaurenAI';
+import { LaurenAI } from './LaurenAI';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -96,6 +97,16 @@ const handleProfileSelection = (profile) => {
   }
 };
 
+const handleLaurenAIMessage = async () => {
+  if (messageInput.trim()) {
+    setMessages([...messages, { text: messageInput, sender: 'user' }]);
+    const response = await LaurenAI(messageInput);
+    setMessages((prevMessages) => [...prevMessages, { text: response, sender: 'laurenAI' }]);
+    setMessageInput('');
+  }
+};
+
+
 if (currentView === 'laurenAI') {
   return (
     <View style={styles.container}>
@@ -111,9 +122,13 @@ if (currentView === 'laurenAI') {
 const [messageInput, setMessageInput] = useState('');
 
 const handleSendMessage = () => {
-  if (messageInput.trim()) {
-    setMessages([...messages, messageInput]);
-    setMessageInput('');
+  if (selectedProfile.name === 'Lauren') {
+    handleLaurenAIMessage();
+  } else {
+    if (messageInput.trim()) {
+      setMessages([...messages, messageInput]);
+      setMessageInput('');
+    }
   }
 };
 
@@ -163,8 +178,8 @@ if (currentView === 'profiles') {
       </TouchableOpacity>
       <ScrollView style={styles.chatContainer}>
         {messages.map((message, index) => (
-          <Text key={index}>{message}</Text>
-        ))}
+          <Text key={index} style={message.sender === 'laurenAI' ? styles.laurenMessage : styles.userMessage}>{message.text}</Text>
+  ))}
       </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
