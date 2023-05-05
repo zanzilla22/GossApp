@@ -84,7 +84,7 @@ export default function HomeScreen() {
     { name: "Aditya Raman", school: "University of Toronto Schools", year: "07", picture: "https://i.imgur.com/nvXkH5B.png" },
     { name: "Alice Smith", school: "Harvard University", year: "04", picture: "https://i.imgur.com/6EybQz9.jpeg" },
     { name: "John Doe", school: "MIT", year: "03", picture: "https://i.imgur.com/X6IJX5g.jpeg" }
-    { name: "Lauren", school: "Goss", year: "69", picture: "temp.com" },
+    { name: "Lauren", school: "Goss", year: "69", picture: "https://i.imgur.com/15ZgXoI.png" },
   ];
   
 const handleProfileSelection = (profile) => {
