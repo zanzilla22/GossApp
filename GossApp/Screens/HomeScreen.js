@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Vibration, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import styles from './styles';
+import LaurenAI from './LaurenAI';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -83,12 +84,29 @@ export default function HomeScreen() {
     { name: "Aditya Raman", school: "University of Toronto Schools", year: "07", picture: "https://i.imgur.com/nvXkH5B.png" },
     { name: "Alice Smith", school: "Harvard University", year: "04", picture: "https://i.imgur.com/6EybQz9.jpeg" },
     { name: "John Doe", school: "MIT", year: "03", picture: "https://i.imgur.com/X6IJX5g.jpeg" }
+    { name: "Lauren", school: "Goss", year: "69", picture: "temp.com" },
   ];
   
-  const handleProfileSelection = (profile) => {
+const handleProfileSelection = (profile) => {
   setSelectedProfile(profile);
-  setCurrentView('chat');
+  if (profile.name === 'LaurenAI') {
+    setCurrentView('laurenAI');
+  } else {
+    setCurrentView('chat');
+  }
 };
+
+if (currentView === 'laurenAI') {
+  return (
+    <View style={styles.container}>
+      <Text>Chat with {selectedProfile.name}</Text>
+      <TouchableOpacity onPress={handleBackToProfiles} style={{ marginTop: 20 }}>
+        <Text>Back to profiles</Text>
+      </TouchableOpacity>
+      <LaurenAI />
+    </View>
+  );
+}
 
 const [messageInput, setMessageInput] = useState('');
 
